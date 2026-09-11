@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KisanBazaar - Direct Farm-to-Buyer Marketplace</title>
+    <meta name="description" content="India's trusted agricultural marketplace connecting farmers directly with buyers through transparent real-time bidding. Get fair prices, integrated logistics, and secure payments." />
+    <meta name="author" content="KisanBazaar" />
+    <meta name="keywords" content="agricultural marketplace, farm produce, crop bidding, farmer marketplace, direct buying, agri-commerce, mandi prices" />
+
+    <meta property="og:title" content="KisanBazaar - Get the Best Price for Your Crops" />
+    <meta property="og:description" content="India's trusted agricultural marketplace. Real-time bidding, fair prices, integrated logistics." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@KisanBazaar" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <script type="text/javascript">
+      // Early patch for DOM manipulators (Google Translate, Chrome Auto-Translate, Grammarly, etc.)
+      if (typeof Node === 'function' && Node.prototype) {
+        var origRemoveChild = Node.prototype.removeChild;
+        Node.prototype.removeChild = function(child) {
+          if (child.parentNode !== this) {
+            if (child.parentNode) {
+              child.parentNode.removeChild(child);
+            }
+            return child;
+          }
+          return origRemoveChild.apply(this, arguments);
+        };
+
+        var origInsertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function(newNode, referenceNode) {
+          if (referenceNode && referenceNode.parentNode !== this) {
+            if (referenceNode.parentNode) {
+              return referenceNode.parentNode.insertBefore(newNode, referenceNode);
+            }
+            return this.appendChild(newNode);
+          }
+          return origInsertBefore.apply(this, arguments);
+        };
+      }
+
+      // Neutralize any Google Translate hover highlighting
+      document.addEventListener('mouseover', function(e) {
+        if (e.target && e.target.classList && e.target.classList.contains('goog-text-highlight')) {
+          e.target.classList.remove('goog-text-highlight');
+        }
+      }, true);
+    </script>
+    <style>
+      /* Prevent Google Translate hover highlight rectangle and balloon popup */
+      html body .goog-text-highlight,
+      html body font.goog-text-highlight,
+      html body font[class*="goog-text-highlight"],
+      html body *[class*="goog-text-highlight"],
+      html body font,
+      .goog-text-highlight {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+      }
+      #goog-gt-tt,
+      #goog-gt-tt *,
+      .goog-te-balloon-frame,
+      .goog-tooltip,
+      .goog-tooltip:hover {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="google_translate_element" style="display: none;"></div>
+    <div id="root"></div>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'hi,mr,bn,te,ta,gu,ur,kn,ml,pa,or,as,mai,ne,sd,sa,doi,kok,gom,brx,mni,en',
+            autoDisplay: false
+          },
+          'google_translate_element'
+        );
+      }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
