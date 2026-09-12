@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Leaf, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -7,11 +7,13 @@ export function Footer() {
       <div className="container py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <Leaf className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <span className="font-serif text-xl font-bold">KisanBazaar</span>
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <img 
+                src="/logo-icon.png" 
+                alt="Kisan Bazaar Logo" 
+                className="h-10 w-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105" 
+              />
+              <span className="font-serif text-xl font-bold">Kisan<span className="text-primary">Bazaar</span></span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Empowering farmers with transparent pricing, seamless logistics, and direct market access.

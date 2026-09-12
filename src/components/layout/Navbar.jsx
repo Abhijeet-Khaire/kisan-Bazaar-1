@@ -76,12 +76,14 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 notranslate" translate="no">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-            <Leaf className="h-6 w-6 text-primary-foreground" />
-          </div>
-          <span className="font-serif text-xl font-bold text-foreground">
-            KisanBazaar
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <img 
+            src="/logo-icon.png" 
+            alt="Kisan Bazaar Logo" 
+            className="h-10 w-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105" 
+          />
+          <span className="font-serif text-xl font-bold text-foreground tracking-tight">
+            Kisan<span className="text-primary">Bazaar</span>
           </span>
         </Link>
 
@@ -187,11 +189,13 @@ export function Navbar() {
           </SheetTrigger>
           <SheetContent side="right" className="w-80 overflow-y-auto">
             <div className="flex flex-col gap-6 pt-6">
-              <Link to="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                  <Leaf className="h-6 w-6 text-primary-foreground" />
-                </div>
-                <span className="font-serif text-xl font-bold">KisanBazaar</span>
+              <Link to="/" className="flex items-center gap-2.5" onClick={() => setIsOpen(false)}>
+                <img 
+                  src="/logo-icon.png" 
+                  alt="Kisan Bazaar Logo" 
+                  className="h-10 w-10 object-contain drop-shadow-sm" 
+                />
+                <span className="font-serif text-xl font-bold">Kisan<span className="text-primary">Bazaar</span></span>
               </Link>
 
               <div className="flex flex-col gap-2">

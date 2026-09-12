@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Navigation } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const roles = [
     { id: 'farmer', label: 'Farmer' },
@@ -35,11 +35,11 @@ export const AuthLayout = ({
 
                     {/* Top Logo Header */}
                     <div className="relative z-10">
-                        <Link to="/" className="inline-flex items-center gap-2 group focus:outline-none">
-                            <div className="p-2 rounded-xl bg-white/10 backdrop-blur-md group-hover:bg-white/20 transition-all">
-                                <Navigation className="w-6 h-6 text-white fill-white transform -rotate-45" />
+                        <Link to="/" className="inline-flex items-center gap-3 group focus:outline-none">
+                            <div className="p-1 rounded-2xl bg-white/10 backdrop-blur-md group-hover:bg-white/20 transition-all border border-white/20 shadow-sm flex items-center justify-center">
+                                <img src="/logo-icon.png" alt="Kisan Bazaar Logo" className="w-9 h-9 object-contain" />
                             </div>
-                            <span className="font-semibold text-xl tracking-tight text-white">KisanBazaar</span>
+                            <span className="font-semibold text-xl tracking-tight text-white">Kisan<span className="text-emerald-200">Bazaar</span></span>
                         </Link>
                     </div>
 
