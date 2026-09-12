@@ -50,11 +50,7 @@ export default function CropDetails() {
             return;
         }
 
-        placeBid(crop.id, amt, user?.name || "Agri Buyer");
-        toast({
-            title: "Bid Submitted Successfully!",
-            description: `You placed a bid of ₹${amt.toLocaleString()} for ${crop.name}`,
-        });
+        placeBid(crop.id, amt, user?.name || "Agri Buyer", user?.uid || "BU001");
         setBidAmount("");
     };
 

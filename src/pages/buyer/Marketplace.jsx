@@ -8,9 +8,11 @@ import { BidModal } from "@/components/crops/BidModal";
 import { mockCrops } from "@/lib/mockData";
 import { Gavel, TrendingUp } from "lucide-react";
 import { useGlobalState } from "@/context/GlobalState";
+import { useAuth } from "@/context/AuthContext";
 
-export default function BuyerMarketplace() {
+export default function Marketplace() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Crops");
   const [selectedState, setSelectedState] = useState("All States");
@@ -111,7 +113,9 @@ export default function BuyerMarketplace() {
           }}
           onBidSubmit={(amount) => {
             if (selectedCrop) {
-              placeBid(selectedCrop.id, amount, "Me (Buyer)");
+              const buyerName = user?.name || (user?.companyName || "Agromart Buyer");
+              const buyerId = user?.uid || "BU001";
+              placeBid(selectedCrop.id, amount, buyerName, buyerId);
             }
           }}
         />

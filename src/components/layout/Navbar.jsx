@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 const navLinks = [
   { href: "/buyer/marketplace", label: "Marketplace", icon: TrendingUp },
@@ -108,6 +109,9 @@ export function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
+          {/* Real-time Bid & Order Notification Bell */}
+          <NotificationBell />
+
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -182,13 +186,15 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile Navigation */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
+        {/* Mobile Navigation Header Items */}
+        <div className="flex items-center gap-2 md:hidden">
+          <NotificationBell />
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
           <SheetContent side="right" className="w-80 overflow-y-auto">
             <div className="flex flex-col gap-6 pt-6">
               <Link to="/" className="flex items-center gap-2.5" onClick={() => setIsOpen(false)}>
@@ -296,6 +302,7 @@ export function Navbar() {
             </div>
           </SheetContent>
         </Sheet>
+      </div>
       </div>
     </nav>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
@@ -38,15 +38,19 @@ import {
   Download,
   Check,
   Globe2,
+  ShoppingBag,
   Settings as SettingsIcon
 } from "lucide-react";
 import { toast } from "sonner";
+import { ProfileOrdersTab } from "@/components/profile/ProfileOrdersTab";
+import { ProfileNotificationsTab } from "@/components/profile/ProfileNotificationsTab";
 
 export default function Profile() {
   const { user, updateUserProfile, switchDemoRole } = useAuth();
-  const { crops, farmerStats } = useGlobalState();
+  const { crops, farmerStats, notifications, orders, bids } = useGlobalState();
   const { changeLanguage } = useLanguage();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -109,8 +113,14 @@ export default function Profile() {
 
   const [newCropTag, setNewCropTag] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState("personal");
+  const initialTab = searchParams.get("tab") || "personal";
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [hoveredTab, setHoveredTab] = useState(null);
+
+  useEffect(() => {
+    const t = searchParams.get("tab");
+    if (t) setActiveTab(t);
+  }, [searchParams]);
 
   // Sync state when user profile changes
   useEffect(() => {
@@ -210,6 +220,23 @@ export default function Profile() {
 
   const role = user?.role || "farmer";
 
+  // Notification and Order counters for profile badges
+  const userNotifications = (notifications || []).filter(n => {
+    if (n.recipientId === user?.uid) return true;
+    if (n.recipientRole === role) return true;
+    if (n.recipientId === "all" || n.recipientRole === "all") return true;
+    return false;
+  });
+  const unreadNotifCount = userNotifications.filter(n => !n.read).length;
+
+  const currentRoleOrders = (orders || []).filter(o => {
+    if (role === "farmer") return o.farmerId === user?.uid || o.farmerId === "F001";
+    if (role === "buyer") return o.buyerId === user?.uid || o.buyerId === "BU001";
+    if (role === "logistics") return true;
+    if (role === "storage") return true;
+    return false;
+  });
+
   const profileTabs = [
     {
       id: "personal",
@@ -236,6 +263,19 @@ export default function Profile() {
           : Warehouse,
     },
     {
+      id: "orders",
+      label: "Orders & Bids",
+      icon: ShoppingBag,
+      badge: currentRoleOrders.length > 0 ? currentRoleOrders.length : null,
+    },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: Bell,
+      badge: unreadNotifCount > 0 ? unreadNotifCount : null,
+      isAlert: unreadNotifCount > 0,
+    },
+    {
       id: "kyc",
       label: "KYC & Land",
       icon: ShieldCheck,
@@ -252,7 +292,7 @@ export default function Profile() {
     },
     {
       id: "security",
-      label: "Security & Alerts",
+      label: "Security",
       icon: Lock,
     },
   ];
@@ -402,9 +442,9 @@ export default function Profile() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* iOS 27 Fluid Sliding Tab Bar */}
           <div className="w-full">
-            <div className="relative p-1.5 rounded-2xl bg-zinc-900/90 dark:bg-zinc-950/80 backdrop-blur-2xl border border-white/10 dark:border-white/10 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.12)]">
+            <div className="relative p-1 rounded-2xl bg-zinc-900/90 dark:bg-zinc-950/80 backdrop-blur-2xl border border-white/10 dark:border-white/10 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.12)]">
               <div
-                className="flex w-full overflow-x-auto md:grid md:grid-cols-6 gap-1.5 no-scrollbar scroll-smooth"
+                className="flex w-full items-center justify-between gap-1 overflow-x-auto no-scrollbar scroll-smooth py-0.5 px-0.5"
                 onMouseLeave={() => setHoveredTab(null)}
                 role="tablist"
                 aria-label="Profile Sections"
@@ -423,7 +463,7 @@ export default function Profile() {
                       onMouseEnter={() => setHoveredTab(tab.id)}
                       whileTap={{ scale: 0.95 }}
                       className={cn(
-                        "relative flex-1 min-w-[140px] md:min-w-0 py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 text-xs sm:text-sm font-medium transition-colors duration-200 select-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+                        "relative flex-1 shrink-0 px-2 sm:px-2.5 py-2 sm:py-2.5 rounded-xl flex items-center justify-center gap-1.5 text-xs sm:text-[13px] font-medium transition-colors duration-200 select-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                         isActive
                           ? "text-white font-semibold"
                           : "text-zinc-400 hover:text-zinc-100"
@@ -462,7 +502,7 @@ export default function Profile() {
                       )}
 
                       {/* Content: Icon, Label & Live Pulse */}
-                      <span className="relative z-10 flex items-center gap-2">
+                      <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">
                         <motion.span
                           animate={{
                             scale: isActive ? 1.15 : 1,
@@ -476,15 +516,30 @@ export default function Profile() {
                         >
                           <IconComponent
                             className={cn(
-                              "h-4 w-4 transition-colors duration-200",
+                              "h-4 w-4 shrink-0 transition-colors duration-200",
                               isActive ? "text-white" : "text-zinc-400 group-hover:text-zinc-200"
                             )}
                           />
                         </motion.span>
-                        <span className="whitespace-nowrap tracking-tight">{tab.label}</span>
+                        <span className="whitespace-nowrap tracking-tight font-medium">{tab.label}</span>
+
+                        {tab.badge && (
+                          <span
+                            className={cn(
+                              "ml-0.5 flex h-4 min-w-4 px-1.5 items-center justify-center rounded-full text-[10px] font-bold shadow-xs",
+                              tab.isAlert
+                                ? "bg-red-500 text-white ring-1 ring-white/30 animate-pulse"
+                                : isActive
+                                ? "bg-white/25 text-white"
+                                : "bg-white/15 text-zinc-300"
+                            )}
+                          >
+                            {tab.badge}
+                          </span>
+                        )}
 
                         {/* iOS active micro pulse indicator */}
-                        {isActive && (
+                        {isActive && !tab.badge && (
                           <span className="hidden sm:inline-block h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.95)] animate-pulse ml-0.5" />
                         )}
                       </span>
@@ -963,6 +1018,16 @@ export default function Profile() {
                 </CardFooter>
               )}
             </Card>
+          </TabsContent>
+
+          {/* TAB: ORDERS & BIDS MANAGEMENT (FOR ALL USERS) */}
+          <TabsContent value="orders">
+            <ProfileOrdersTab />
+          </TabsContent>
+
+          {/* TAB: NOTIFICATION CENTER */}
+          <TabsContent value="notifications">
+            <ProfileNotificationsTab />
           </TabsContent>
 
           {/* TAB 3: KYC & LAND VERIFICATION */}
