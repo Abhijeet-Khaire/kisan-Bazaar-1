@@ -8,11 +8,13 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <img 
-                src="/logo-icon.png" 
-                alt="Kisan Bazaar Logo" 
-                className="h-10 w-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105" 
-              />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-white/95 p-1 shadow-xs border border-border/50 transition-all duration-200 group-hover:scale-105">
+                <img 
+                  src="/logo-icon.png" 
+                  alt="Kisan Bazaar Logo" 
+                  className="h-full w-full object-contain" 
+                />
+              </div>
               <span className="font-serif text-xl font-bold">Kisan<span className="text-primary">Bazaar</span></span>
             </Link>
             <p className="text-sm text-muted-foreground">

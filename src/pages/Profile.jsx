@@ -1090,7 +1090,9 @@ export default function Profile() {
                   <CardHeader className="bg-primary text-primary-foreground p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <img src="/logo-icon.png" alt="Kisan Bazaar" className="h-6 w-6 object-contain rounded-full bg-white/20 p-0.5" />
+                        <div className="h-6 w-6 rounded-md bg-white p-0.5 shadow-xs flex items-center justify-center shrink-0">
+                          <img src="/logo-icon.png" alt="Kisan Bazaar" className="h-full w-full object-contain" />
+                        </div>
                         <span className="font-serif font-bold text-sm tracking-wide">KISANBAZAAR DIGITAL ID</span>
                       </div>
                       <Badge variant="secondary" className="bg-white/20 text-white text-[10px] hover:bg-white/30 border-0">

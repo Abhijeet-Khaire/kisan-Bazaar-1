@@ -77,11 +77,13 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 notranslate" translate="no">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <img 
-            src="/logo-icon.png" 
-            alt="Kisan Bazaar Logo" 
-            className="h-10 w-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105" 
-          />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-white/95 p-1 shadow-xs border border-border/50 transition-all duration-200 group-hover:scale-105 group-hover:shadow-sm">
+            <img 
+              src="/logo-icon.png" 
+              alt="Kisan Bazaar Logo" 
+              className="h-full w-full object-contain" 
+            />
+          </div>
           <span className="font-serif text-xl font-bold text-foreground tracking-tight">
             Kisan<span className="text-primary">Bazaar</span>
           </span>
@@ -190,12 +192,14 @@ export function Navbar() {
           <SheetContent side="right" className="w-80 overflow-y-auto">
             <div className="flex flex-col gap-6 pt-6">
               <Link to="/" className="flex items-center gap-2.5" onClick={() => setIsOpen(false)}>
-                <img 
-                  src="/logo-icon.png" 
-                  alt="Kisan Bazaar Logo" 
-                  className="h-10 w-10 object-contain drop-shadow-sm" 
-                />
-                <span className="font-serif text-xl font-bold">Kisan<span className="text-primary">Bazaar</span></span>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-white/95 p-1 shadow-xs border border-border/50">
+                  <img 
+                    src="/logo-icon.png" 
+                    alt="Kisan Bazaar Logo" 
+                    className="h-full w-full object-contain" 
+                  />
+                </div>
+                <span className="font-serif text-xl font-bold text-foreground">Kisan<span className="text-primary">Bazaar</span></span>
               </Link>
 
               <div className="flex flex-col gap-2">
