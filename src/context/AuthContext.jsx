@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 import { auth, db } from '@/lib/firebase';
 import {
@@ -203,7 +203,7 @@ export const AuthProvider = ({ children }) => {
         // Default to Rajesh Kumar (Farmer) for full interactive demonstration
         return DEFAULT_PROFILES.farmer;
     });
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -255,13 +255,17 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const switchDemoRole = (newRole) => {
-        if (!DEFAULT_PROFILES[newRole]) return;
-        const profile = { ...DEFAULT_PROFILES[newRole] };
-        setUser(profile);
-        localStorage.setItem('kisan_bazaar_user', JSON.stringify(profile));
-        toast.info(`Switched role to ${newRole.toUpperCase()}`);
-    };
+    const switchDemoRole = useCallback((newRole) => {
+        if (!newRole || !DEFAULT_PROFILES[newRole]) return;
+        setUser(prev => {
+            if (prev?.role === newRole) return prev; // Do NOT re-trigger if already in this role
+            const profile = { ...DEFAULT_PROFILES[newRole] };
+            localStorage.setItem('kisan_bazaar_user', JSON.stringify(profile));
+            toast.dismiss(); // Cleanly dismiss any previous toasts
+            toast.info(`Switched role to ${newRole.toUpperCase()}`);
+            return profile;
+        });
+    }, []);
 
     const login = async (email, password) => {
         try {

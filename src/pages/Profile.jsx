@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,7 @@ export default function Profile() {
   const { crops, farmerStats, notifications, orders, bids } = useGlobalState();
   const { changeLanguage } = useLanguage();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -116,11 +116,23 @@ export default function Profile() {
   const initialTab = searchParams.get("tab") || "personal";
   const [activeTab, setActiveTab] = useState(initialTab);
   const [hoveredTab, setHoveredTab] = useState(null);
+  const lastRoleRef = useRef(null);
 
   useEffect(() => {
     const t = searchParams.get("tab");
     if (t) setActiveTab(t);
-  }, [searchParams]);
+    const r = searchParams.get("role")?.toLowerCase();
+    if (r && ["farmer", "buyer", "logistics", "storage"].includes(r)) {
+      if (user?.role !== r && lastRoleRef.current !== r && switchDemoRole) {
+        lastRoleRef.current = r;
+        switchDemoRole(r);
+      }
+      // Clean up role param from URL so it doesn't continuously re-trigger
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete("role");
+      setSearchParams(newParams, { replace: true });
+    }
+  }, [searchParams, user?.role, switchDemoRole, setSearchParams]);
 
   // Sync state when user profile changes
   useEffect(() => {

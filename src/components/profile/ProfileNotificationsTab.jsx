@@ -226,38 +226,38 @@ export function ProfileNotificationsTab() {
                 key={notif.id}
                 onClick={() => markAsRead(notif.id)}
                 className={cn(
-                  "group relative rounded-2xl border p-4 sm:p-5 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer",
+                  "group relative rounded-2xl border p-4 sm:p-5 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer border-l-4",
                   isUnread
-                    ? "bg-card border-primary/50 shadow-xs ring-1 ring-primary/20"
-                    : "bg-muted/10 border-border/60 hover:bg-muted/30 opacity-90"
+                    ? "bg-emerald-500/10 dark:bg-emerald-500/15 border-border border-l-emerald-600 dark:border-l-emerald-400 shadow-xs ring-1 ring-emerald-500/20"
+                    : "bg-card border-border/80 hover:bg-muted/40 border-l-transparent opacity-90"
                 )}
               >
                 {/* Left side: icon & details */}
                 <div className="flex items-start gap-3.5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-background border border-border/80 shadow-xs mt-0.5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-background border border-border/80 shadow-xs mt-0.5 text-foreground">
                     {getIcon(notif.type)}
                   </div>
 
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <h4 className="font-semibold text-foreground text-sm flex items-center gap-1.5">
+                      <h4 className="font-bold text-foreground text-sm flex items-center gap-1.5">
                         {notif.title}
                         {isUnread && (
-                          <span className="h-2 w-2 rounded-full bg-primary inline-block shrink-0 animate-pulse" />
+                          <span className="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 inline-block shrink-0 animate-pulse" />
                         )}
                       </h4>
                       {notif.badge && (
-                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-background/80 font-medium">
+                        <Badge variant="outline" className="text-[10px] px-2 py-0.5 bg-background font-semibold border-border text-foreground">
                           {notif.badge}
                         </Badge>
                       )}
                     </div>
 
-                    <p className="text-xs text-muted-foreground leading-relaxed max-w-2xl">
+                    <p className="text-xs font-medium text-foreground/80 dark:text-foreground/85 leading-relaxed max-w-2xl">
                       {notif.message}
                     </p>
 
-                    <p className="text-[11px] text-muted-foreground/80 mt-1.5 flex items-center gap-1">
+                    <p className="text-[11px] text-muted-foreground font-medium mt-1.5 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {notif.timestamp ? formatDistanceToNow(new Date(notif.timestamp), { addSuffix: true }) : "Recently"}
                     </p>
