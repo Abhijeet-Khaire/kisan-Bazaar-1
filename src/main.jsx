@@ -82,4 +82,6 @@ if (rootElement) {
             <App />
         </ErrorBoundary>
     );
+} else {
+    console.error("Critical error: document.getElementById('root') returned null!");
 }

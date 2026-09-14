@@ -179,7 +179,8 @@ body {
   position: static !important;
 }
 
-.skiptranslate:not(.goog-te-combo) {
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame {
   display: none !important;
 }
 
