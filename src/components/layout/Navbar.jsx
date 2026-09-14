@@ -15,6 +15,9 @@ import {
   ShoppingBag,
   ShieldCheck,
   PlusCircle,
+  Tractor,
+  Building,
+  Check,
   Settings as SettingsIcon
 } from "lucide-react";
 import { useState } from "react";
@@ -44,7 +47,7 @@ const navLinks = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, switchDemoRole } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -164,6 +167,31 @@ export function Navbar() {
                 )}
 
                 <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+                  Switch Active Role (सिम्युलेटर)
+                </DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => switchDemoRole("farmer")} className="gap-2 cursor-pointer">
+                  <Tractor className="h-4 w-4 text-emerald-600" />
+                  <span className="flex-1">Farmer Mode</span>
+                  {user.role === "farmer" && <Check className="h-3.5 w-3.5 text-emerald-600 font-bold" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => switchDemoRole("buyer")} className="gap-2 cursor-pointer">
+                  <Building className="h-4 w-4 text-emerald-600" />
+                  <span className="flex-1">Buyer / Trader</span>
+                  {user.role === "buyer" && <Check className="h-3.5 w-3.5 text-emerald-600 font-bold" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => switchDemoRole("logistics")} className="gap-2 cursor-pointer">
+                  <Truck className="h-4 w-4 text-emerald-600" />
+                  <span className="flex-1">Logistics Carrier</span>
+                  {user.role === "logistics" && <Check className="h-3.5 w-3.5 text-emerald-600 font-bold" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => switchDemoRole("storage")} className="gap-2 cursor-pointer">
+                  <Warehouse className="h-4 w-4 text-emerald-600" />
+                  <span className="flex-1">Cold Storage</span>
+                  {user.role === "storage" && <Check className="h-3.5 w-3.5 text-emerald-600 font-bold" />}
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-red-600 gap-2 cursor-pointer">
                   <LogOut className="h-4 w-4" />
                   Logout
@@ -239,6 +267,46 @@ export function Navbar() {
                 {user ? (
                   <>
                     <div className="px-2 text-sm font-medium text-muted-foreground">Signed in as {user.name} ({user.role})</div>
+                    
+                    {/* Quick Role Simulator for Mobile */}
+                    <div className="px-2 py-1 bg-muted/40 rounded-xl border border-border/50">
+                      <p className="text-[11px] font-semibold text-muted-foreground uppercase mb-1.5">Switch Persona</p>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        <Button
+                          size="sm"
+                          variant={user.role === "farmer" ? "default" : "outline"}
+                          className="h-7 text-[11px] justify-start gap-1"
+                          onClick={() => { switchDemoRole("farmer"); setIsOpen(false); }}
+                        >
+                          <Tractor className="h-3 w-3" /> Farmer
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={user.role === "buyer" ? "default" : "outline"}
+                          className="h-7 text-[11px] justify-start gap-1"
+                          onClick={() => { switchDemoRole("buyer"); setIsOpen(false); }}
+                        >
+                          <Building className="h-3 w-3" /> Buyer
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={user.role === "logistics" ? "default" : "outline"}
+                          className="h-7 text-[11px] justify-start gap-1"
+                          onClick={() => { switchDemoRole("logistics"); setIsOpen(false); }}
+                        >
+                          <Truck className="h-3 w-3" /> Logistics
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={user.role === "storage" ? "default" : "outline"}
+                          className="h-7 text-[11px] justify-start gap-1"
+                          onClick={() => { switchDemoRole("storage"); setIsOpen(false); }}
+                        >
+                          <Warehouse className="h-3 w-3" /> Storage
+                        </Button>
+                      </div>
+                    </div>
+
                     <Button
                       variant="default"
                       className="w-full justify-start gap-2"

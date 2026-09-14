@@ -18,9 +18,16 @@ import {
   MessageSquare,
   ArrowRight,
   ShieldCheck,
-  Check
+  Check,
+  Cpu,
+  Key,
+  ExternalLink,
+  Trash2,
+  Bot
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getStoredApiKey, setStoredApiKey, isCloudGeminiActive } from "@/lib/ai/kisanAiService";
+import { toast } from "sonner";
 
 export default function Settings() {
   const {
@@ -38,6 +45,30 @@ export default function Settings() {
   const { user, updateUserProfile } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [geminiKey, setGeminiKey] = useState(() => getStoredApiKey());
+  const [isGeminiActive, setIsGeminiActive] = useState(() => isCloudGeminiActive());
+
+  const handleSaveGeminiKey = () => {
+    const key = geminiKey.trim();
+    if (key && !key.startsWith("AIzaSy")) {
+      toast.error("Please enter a valid Google Gemini API Key (starts with AIzaSy...)");
+      return;
+    }
+    setStoredApiKey(key);
+    setIsGeminiActive(Boolean(key));
+    if (key) {
+      toast.success("Google Gemini 2.5 Flash connected successfully! 🚀");
+    } else {
+      toast.info("Switched to Built-in Regional Agricultural Engine.");
+    }
+  };
+
+  const handleRemoveGeminiKey = () => {
+    setStoredApiKey("");
+    setGeminiKey("");
+    setIsGeminiActive(false);
+    toast.info("Gemini API Key removed. Using Smart Regional Engine.");
+  };
 
   const filteredLanguages = INDIAN_LANGUAGES.filter((lang) => {
     const matchesSearch =
@@ -285,6 +316,92 @@ export default function Settings() {
 
               <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 text-xs text-muted-foreground">
                 Example SMS: <span className="font-mono text-foreground font-semibold">“किसान बाज़ार: करनाल मंडी में बासमती धान का आज का भाव ₹3,850/क्विंटल है।”</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Section 3: Kisan Bazaar GenAI Copilot & Google Gemini Integration */}
+        <div className="mt-6">
+          <Card className="border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-card to-background">
+            <CardHeader>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Bot className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                    Kisan Bazaar GenAI Copilot & Intelligence Engine
+                  </CardTitle>
+                  <CardDescription>
+                    Configure Google Gemini 2.5 Flash for human-grade agricultural advice, live DOM screen awareness, and multilingual comprehension in Marathi, Hindi & English.
+                  </CardDescription>
+                </div>
+                <Badge className={`w-fit font-semibold text-xs px-3 py-1 ${isGeminiActive ? "bg-emerald-600 text-white" : "bg-amber-600 text-white"}`}>
+                  {isGeminiActive ? "Gemini 2.5 Flash Active 🟢" : "Smart Regional Engine 🟠"}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="p-4 rounded-xl border border-border bg-background space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <p className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                      <Key className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> Google Gemini API Key
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Connect your free Gemini API key to activate cloud inference with real-time reasoning.
+                    </p>
+                  </div>
+                  <a
+                    href="https://aistudio.google.com/app/apikey"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:underline shrink-0"
+                  >
+                    Get Free Key <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Input
+                    type="password"
+                    value={geminiKey}
+                    onChange={(e) => setGeminiKey(e.target.value)}
+                    placeholder="Paste Gemini API Key (e.g. AIzaSy...)"
+                    className="flex-1 text-sm bg-muted/40 font-mono"
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleSaveGeminiKey}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5 shrink-0"
+                    >
+                      <Check className="h-4 w-4" /> Save Key
+                    </Button>
+                    {isGeminiActive && (
+                      <Button
+                        variant="outline"
+                        onClick={handleRemoveGeminiKey}
+                        className="text-destructive border-destructive/30 hover:bg-destructive/10 gap-1.5 shrink-0"
+                      >
+                        <Trash2 className="h-4 w-4" /> Remove
+                      </Button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs text-muted-foreground border-t border-border/50">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                    <span>मराठी, हिंदी & English Natural Dialogues</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                    <span>Live DOM Screen Element Scraping</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                    <span>APMC Mandi & 7/12 Satbara Knowledge</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
