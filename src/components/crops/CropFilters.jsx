@@ -15,6 +15,8 @@ export function CropFilters({
   onStateChange,
   selectedQuality,
   onQualityChange,
+  sortBy = "endingSoon",
+  onSortChange,
 }) {
   return (
     <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
@@ -33,7 +35,7 @@ export function CropFilters({
         {/* Filters */}
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 w-full lg:w-auto">
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
-            <SelectTrigger className="w-full sm:w-[160px]">
+            <SelectTrigger className="w-full sm:w-[150px]">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -46,7 +48,7 @@ export function CropFilters({
           </Select>
 
           <Select value={selectedState} onValueChange={onStateChange}>
-            <SelectTrigger className="w-full sm:w-[160px]">
+            <SelectTrigger className="w-full sm:w-[150px]">
               <SelectValue placeholder="State" />
             </SelectTrigger>
             <SelectContent>
@@ -59,7 +61,7 @@ export function CropFilters({
           </Select>
 
           <Select value={selectedQuality} onValueChange={onQualityChange}>
-            <SelectTrigger className="col-span-2 sm:col-span-1 w-full sm:w-[160px]">
+            <SelectTrigger className="w-full sm:w-[140px]">
               <SelectValue placeholder="Quality" />
             </SelectTrigger>
             <SelectContent>
@@ -72,9 +74,20 @@ export function CropFilters({
             </SelectContent>
           </Select>
 
-          <Button variant="outline" size="icon">
-            <SlidersHorizontal className="h-4 w-4" />
-          </Button>
+          {onSortChange && (
+            <Select value={sortBy} onValueChange={onSortChange}>
+              <SelectTrigger className="col-span-2 sm:col-span-1 w-full sm:w-[170px]">
+                <SelectValue placeholder="Sort By" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="endingSoon">Ending Soonest</SelectItem>
+                <SelectItem value="priceLow">Price: Low to High</SelectItem>
+                <SelectItem value="priceHigh">Price: High to Low</SelectItem>
+                <SelectItem value="bids">Most Bids</SelectItem>
+                <SelectItem value="aiScore">Top AI Quality</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
         </div>
       </div>
     </div>
