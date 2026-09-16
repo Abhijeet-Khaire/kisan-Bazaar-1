@@ -558,6 +558,11 @@ export function LanguageProvider({ children }) {
         selectElem.value = googleCode;
         selectElem.dispatchEvent(new Event("change"));
       }
+
+      // Ensure body is never shifted down by Google Translate banner
+      if (document.body) {
+        document.body.style.top = "0px";
+      }
     } catch {
       // Ignore background bridge errors
     }

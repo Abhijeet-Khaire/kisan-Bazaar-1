@@ -46,14 +46,79 @@
         };
       }
 
-      // Neutralize any Google Translate hover highlighting
+      // Neutralize any Google Translate hover highlighting and top banner
       document.addEventListener('mouseover', function(e) {
         if (e.target && e.target.classList && e.target.classList.contains('goog-text-highlight')) {
           e.target.classList.remove('goog-text-highlight');
         }
       }, true);
+
+      // Prevent Google Translate from shifting the body down and remove banner elements
+      function suppressGoogleTranslateBanner() {
+        if (document.body) {
+          if (document.body.style.top && document.body.style.top !== '0px') {
+            document.body.style.top = '0px';
+          }
+          if (document.body.style.position === 'relative') {
+            document.body.style.position = 'static';
+          }
+        }
+        var banners = document.querySelectorAll('.goog-te-banner-frame, iframe.skiptranslate, body > .skiptranslate, [class*="VIpgJd"], iframe[id*="container"]');
+        for (var i = 0; i < banners.length; i++) {
+          banners[i].style.setProperty('display', 'none', 'important');
+          banners[i].style.setProperty('visibility', 'hidden', 'important');
+          banners[i].style.setProperty('height', '0px', 'important');
+          banners[i].style.setProperty('opacity', '0', 'important');
+          banners[i].style.setProperty('pointer-events', 'none', 'important');
+        }
+      }
+
+      var bannerObserver = new MutationObserver(function() {
+        suppressGoogleTranslateBanner();
+      });
+
+      if (document.documentElement) {
+        bannerObserver.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+      }
     </script>
     <style>
+      /* Hide Google Translate top banner, toolbar, frame, and tooltips */
+      .goog-te-banner-frame,
+      .goog-te-banner-frame.skiptranslate,
+      iframe.goog-te-banner-frame,
+      iframe.skiptranslate,
+      iframe[id*=":1.container"],
+      iframe[id*=":2.container"],
+      iframe[class*="goog-te-banner-frame"],
+      iframe[class*="skiptranslate"],
+      iframe[class*="VIpgJd"],
+      .VIpgJd-ZVi9I-OR9Che-bN97Pc,
+      .VIpgJd-ZVi9I-aZ2wEe-wOHMyf,
+      .VIpgJd-ZVi9I-x3G3ab-oM61Ub,
+      body > .skiptranslate,
+      body > div[class*="skiptranslate"],
+      body > iframe[class*="skiptranslate"],
+      #goog-gt-tt,
+      #goog-gt-tt *,
+      .goog-te-balloon-frame,
+      .goog-tooltip,
+      .goog-tooltip:hover {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        width: 0 !important;
+        border: none !important;
+        overflow: hidden !important;
+      }
+
+      html, body {
+        top: 0px !important;
+        position: static !important;
+      }
+
       /* Prevent Google Translate hover highlight rectangle and balloon popup */
       html body .goog-text-highlight,
       html body font.goog-text-highlight,
@@ -67,16 +132,6 @@
         box-shadow: none !important;
         -webkit-box-shadow: none !important;
         -moz-box-shadow: none !important;
-      }
-      #goog-gt-tt,
-      #goog-gt-tt *,
-      .goog-te-balloon-frame,
-      .goog-tooltip,
-      .goog-tooltip:hover {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
       }
     </style>
   </head>

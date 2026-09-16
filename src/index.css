@@ -160,9 +160,22 @@ All colors MUST be HSL.
   }
 }
 
-/* Google Translate Clean Integration - Hide default banner, widgets, and hover tooltips */
-.goog-te-banner-frame.skiptranslate,
+/* Google Translate Clean Integration - Completely hide top banner, widgets, frames, and hover tooltips */
 .goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+iframe[id*=":1.container"],
+iframe[id*=":2.container"],
+iframe[class*="goog-te-banner-frame"],
+iframe[class*="skiptranslate"],
+iframe[class*="VIpgJd"],
+.VIpgJd-ZVi9I-OR9Che-bN97Pc,
+.VIpgJd-ZVi9I-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9I-x3G3ab-oM61Ub,
+body > .skiptranslate,
+body > div[class*="skiptranslate"],
+body > iframe[class*="skiptranslate"],
 #goog-gt-tt,
 #goog-gt-tt *,
 .goog-te-balloon-frame,
@@ -172,16 +185,16 @@ All colors MUST be HSL.
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  width: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
 }
 
-body {
+html, body {
   top: 0px !important;
   position: static !important;
-}
-
-.goog-te-banner-frame.skiptranslate,
-iframe.goog-te-banner-frame {
-  display: none !important;
 }
 
 /* High specificity overrides to completely eliminate Google Translate hover highlights/shadows */
