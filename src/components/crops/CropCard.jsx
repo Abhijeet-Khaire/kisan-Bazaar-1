@@ -21,6 +21,11 @@ export function CropCard({ crop, onBid, onClick, showBidButton = true }) {
           <img
             src={crop.imageUrl}
             alt={crop.name}
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600&auto=format&fit=crop&q=80";
+            }}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
@@ -29,7 +34,7 @@ export function CropCard({ crop, onBid, onClick, showBidButton = true }) {
               {crop.status === "live" && <span className="h-2 w-2 rounded-full bg-chart-2 animate-pulse" />}
               {crop.status === "live" ? "Live Auction" : crop.status}
             </Badge>
-            <Badge variant="outline" className="bg-background/80 backdrop-blur-sm">
+            <Badge variant="outline" className="bg-background/80 backdrop-blur-sm notranslate">
               Grade {crop.quality}
             </Badge>
           </div>
@@ -43,14 +48,14 @@ export function CropCard({ crop, onBid, onClick, showBidButton = true }) {
             <p className="text-sm text-muted-foreground">{crop.variety}</p>
           </div>
           {crop.farmerRating && (
-            <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-300 flex items-center gap-1">
+            <Badge variant="outline" className="notranslate text-xs bg-amber-50 text-amber-700 border-amber-300 flex items-center gap-1">
               ★ {crop.farmerRating}
             </Badge>
           )}
         </div>
 
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>Moisture: {crop.moisture ? `${crop.moisture}%` : "12.5%"}</span>
+          <span>Moisture: <span className="notranslate">{crop.moisture ? `${crop.moisture}%` : "12.5%"}</span></span>
           <span className="text-primary font-semibold">{crop.demandLevel ? `Demand: ${crop.demandLevel}` : "High Demand 🔥"}</span>
         </div>
 
@@ -59,7 +64,7 @@ export function CropCard({ crop, onBid, onClick, showBidButton = true }) {
             <MapPin className="h-4 w-4" />
             {crop.location}, {crop.state}
           </div>
-          <div className="font-medium">
+          <div className="font-medium notranslate">
             {crop.quantity} {crop.unit}
           </div>
         </div>
@@ -67,13 +72,13 @@ export function CropCard({ crop, onBid, onClick, showBidButton = true }) {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Floor Price</span>
-            <span className="text-sm font-medium">₹{crop.floorPrice.toLocaleString()}/{crop.unit}</span>
+            <span className="text-sm font-medium notranslate">₹{crop.floorPrice.toLocaleString()}/{crop.unit}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Current Bid</span>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-primary">₹{crop.currentBid.toLocaleString()}</span>
-              <Badge variant="secondary" className="bg-accent text-accent-foreground text-xs">
+              <span className="text-lg font-bold text-primary notranslate">₹{crop.currentBid.toLocaleString()}</span>
+              <Badge variant="secondary" className="notranslate bg-accent text-accent-foreground text-xs">
                 <TrendingUp className="h-3 w-3 mr-1" />
                 +{priceIncrease}%
               </Badge>

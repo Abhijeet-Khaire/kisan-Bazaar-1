@@ -11,6 +11,7 @@ export function CropFilters({
   onSearchChange,
   selectedCategory,
   onCategoryChange,
+  showCategorySelect = false,
   selectedState,
   onStateChange,
   selectedQuality,
@@ -33,22 +34,24 @@ export function CropFilters({
         </div>
 
         {/* Filters */}
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 w-full lg:w-auto">
-          <Select value={selectedCategory} onValueChange={onCategoryChange}>
-            <SelectTrigger className="w-full sm:w-[150px]">
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              {cropCategories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 w-full lg:w-auto items-center">
+          {showCategorySelect && (
+            <Select value={selectedCategory} onValueChange={onCategoryChange}>
+              <SelectTrigger className="w-full sm:w-[150px] overflow-hidden truncate">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                {cropCategories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
 
           <Select value={selectedState} onValueChange={onStateChange}>
-            <SelectTrigger className="w-full sm:w-[150px]">
+            <SelectTrigger className="w-full sm:w-[150px] overflow-hidden truncate">
               <SelectValue placeholder="State" />
             </SelectTrigger>
             <SelectContent>
@@ -61,7 +64,7 @@ export function CropFilters({
           </Select>
 
           <Select value={selectedQuality} onValueChange={onQualityChange}>
-            <SelectTrigger className="w-full sm:w-[140px]">
+            <SelectTrigger className="w-full sm:w-[140px] overflow-hidden truncate">
               <SelectValue placeholder="Quality" />
             </SelectTrigger>
             <SelectContent>
@@ -76,7 +79,7 @@ export function CropFilters({
 
           {onSortChange && (
             <Select value={sortBy} onValueChange={onSortChange}>
-              <SelectTrigger className="col-span-2 sm:col-span-1 w-full sm:w-[170px]">
+              <SelectTrigger className="col-span-2 sm:col-span-1 w-full sm:w-[170px] overflow-hidden truncate">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>

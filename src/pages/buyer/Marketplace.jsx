@@ -141,9 +141,9 @@ export default function Marketplace() {
                       : "bg-card text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
                   }`}
                 >
-                  <span>{category}</span>
+                  <span translate="yes">{category}</span>
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-full ${
+                    className={`notranslate text-xs px-2 py-0.5 rounded-full ${
                       isActive
                         ? "bg-primary-foreground/20 text-primary-foreground font-semibold"
                         : "bg-muted text-muted-foreground"
@@ -176,18 +176,18 @@ export default function Marketplace() {
         {/* Results summary bar */}
         <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
           <div>
-            Showing <strong className="text-foreground">{paginatedCrops.length}</strong> of{" "}
-            <strong className="text-foreground">{sortedCrops.length}</strong> crops
+            Showing <strong className="notranslate text-foreground">{paginatedCrops.length}</strong> of{" "}
+            <strong className="notranslate text-foreground">{sortedCrops.length}</strong> crops
             {selectedCategory !== "All Crops" && (
-              <span> in <span className="text-primary font-medium">{selectedCategory}</span></span>
+              <span> in <span className="text-primary font-medium" translate="yes">{selectedCategory}</span></span>
             )}
             {selectedState !== "All States" && (
-              <span> from <span className="text-foreground font-medium">{selectedState}</span></span>
+              <span> from <span className="text-foreground font-medium" translate="yes">{selectedState}</span></span>
             )}
           </div>
           {totalPages > 1 && (
             <div className="text-xs text-muted-foreground">
-              Page {currentPage} of {totalPages}
+              Page <span className="notranslate">{currentPage}</span> of <span className="notranslate">{totalPages}</span>
             </div>
           )}
         </div>
